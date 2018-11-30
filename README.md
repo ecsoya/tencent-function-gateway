@@ -1,6 +1,11 @@
 # tencent-function-gateway
 腾讯云无服务器函数（SCF）API + API 网关 + SpringBoot调试
 
+参考资料：
+* [腾讯云无服务器云函数实践](http://blog.ecsoya.work/%E8%85%BE%E8%AE%AF%E4%BA%91/2018/11/20/scf.html)
+* [腾讯云API网关](http://blog.ecsoya.work/%E8%85%BE%E8%AE%AF%E4%BA%91/2018/11/21/api-gateway.html)
+* [基于SpringBoot的腾讯云函数调试](http://blog.ecsoya.work/%E8%85%BE%E8%AE%AF%E4%BA%91/2018/11/22/scf-boot.html)
+
 ### 工程介绍
 
 #### 1. function-scf-api

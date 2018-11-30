@@ -11,6 +11,6 @@
 		<module>../function-maven-plugin</module>
 		<module>../function-scf-api</module>
 		<module>../function-demo</module>
-		<module>../function-boot</module>
+		
 	</modules>
 </project>
