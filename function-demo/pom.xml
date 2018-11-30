@@ -1,0 +1,114 @@
+<!--
+    Copyright (c) 2018 Ecsoya and others.
+   
+    Contributors:
+         Ecsoya (jin.liu@soyatec.com)
+       
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>function-demo</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Function Demo with Gateway</name>
+	<url>http://blog.ecsoya.work/%E8%85%BE%E8%AE%AF%E4%BA%91/2018/11/21/api-gateway.html</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.ecsoya.cloud</groupId>
+			<artifactId>function-scf-api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.ecsoya.cloud</groupId>
+				<artifactId>function-maven-plugin</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<configuration>
+					<function>
+						<enabled>true</enabled>
+						<name>function-demo</name>
+						<handler>function.DemoGatewayFunction::handleRequest</handler>
+						<secretId>[腾讯云无服务函数的SecretID]</secretId>
+						<secretKey>[腾讯云无服务函数的SecretKey]</secretKey>
+						<description>Demo Function</description>
+						<timeout>300</timeout>
+						<memory>1536</memory>
+						<bucket>
+							<name>[腾讯云对象存储COS的名称]</name>
+							<appid>[腾讯云对象存储COS的appid]</appid>
+						</bucket>
+					</function>
+					<gateway>
+						<service>[API网关对应的service]</service>
+					</gateway>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>upload-function</goal>
+							<goal>upload-gateway</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<parent>
+		<groupId>org.ecsoya.cloud</groupId>
+		<artifactId>tencent-function-gateway</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../tencent-function-gateway</relativePath>
+	</parent>
+</project>
