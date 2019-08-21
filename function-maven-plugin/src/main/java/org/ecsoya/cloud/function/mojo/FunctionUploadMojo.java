@@ -119,7 +119,7 @@ public class FunctionUploadMojo extends AbstractMojo {
 				updateCodeRequest.setHandler(handler);
 				updateCodeRequest.setCosBucketName(function.getBucket().getName());
 				updateCodeRequest.setCosBucketRegion(function.getBucket().getRegion());
-				updateCodeRequest.setCosObjectName(functionName);
+				updateCodeRequest.setCosObjectName("/" + jar.getName());
 
 				try {
 					scfClient.UpdateFunctionCode(updateCodeRequest);
@@ -202,12 +202,13 @@ public class FunctionUploadMojo extends AbstractMojo {
 		ClientConfig clientConfig = new ClientConfig(new Region(bucketRegion));
 		COSClient cosClient = new COSClient(cred, clientConfig);
 		if (!cosClient.doesBucketExist(bucketName)) {
-			CreateBucketRequest request = new CreateBucketRequest(bucketSimpleName);
+			CreateBucketRequest request = new CreateBucketRequest(bucketName);
 			cosClient.createBucket(request);
 			cosClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
 			getLog().info(" Function Upload - Bucket: create bucket: " + bucketName);
 		} else {
-			cosClient.putObject(bucketName, function.getName(), mavenProject.getArtifact().getFile());
+			File file = mavenProject.getArtifact().getFile();
+			cosClient.putObject(bucketName, file.getName(), file);
 			getLog().info(" Function Upload - Bucket: upload jar to bucket " + bucketName + " with name "
 					+ function.getName());
 		}
