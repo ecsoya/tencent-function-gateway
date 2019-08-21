@@ -73,6 +73,5 @@
 		<groupId>org.ecsoya.cloud</groupId>
 		<artifactId>tencent-function-gateway</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../tencent-function-gateway</relativePath>
 	</parent>
 </project>
